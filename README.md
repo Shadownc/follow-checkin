@@ -1,14 +1,11 @@
 # follow-checkin
-## 没什么作用 别试了。。
+## Actions每天北京时间八点自动运行 在[actions-checkin](https://github.com/Shadownc/actions-checkin)仓库
 ## 参数获取方法[点击登录](https://app.follow.is/)
-1. `USER_ID`获取方法 控制台搜索`session`
-![alt text](image-1.png)
-2. `COOKIE`也可以从`session`请求头`cookie`直接复制使用
-```
-authjs.csrf-token=...
-```
+* `csrfToken`
+* `cookie`
+![alt text](image.png)
 ## `follow.sh`使用方法
-修改脚本内`COOKIE`、`USER_ID`变量值
+修改脚本内`csrfToken`、`cookie`变量值
 给脚本执行权限
 ```
 chmod +x follow.sh

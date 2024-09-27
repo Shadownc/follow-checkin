@@ -1,28 +1,41 @@
 import requests
+import json
+import os
 
-# 配置变量
-cookie = "authjs.csrf-token=..."
-user_id = "user_id"
-url = "https://api.follow.is/wallets"
+# 从环境变量中获取 csrfToken 和 cookie
+csrfToken="your_csrfToken_value"
+cookie="your_cookie_value"
 
-# HTTP 请求头
-headers = {
-    'accept': '*/*',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'baggage': 'sentry-environment=alpha,sentry-release=e2ba869f62002cf525103a2ccfdb7f8c018a6877,sentry-public_key=e5bccf7428aa4e881ed5cb713fdff181,sentry-trace_id=b6a1f8df170d4007877510581d07050a,sentry-sample_rate=1,sentry-sampled=true',
-    'cookie': cookie,
-    'origin': 'https://app.follow.is',
-    'priority': 'u=1, i',
-    'sec-ch-ua': '^Chromium^;v=^128^, ^Not'
-}
+def sign_in():
+    url = "https://api.follow.is/wallets/transactions/claim_daily"
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.38(0x1800262c) NetType/4G Language/zh_CN',
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Connection': 'keep-alive',
+        'Cookie': cookie
+    }
+    
+    payload = {
+        "csrfToken": csrfToken
+    }
+    
+    # 发送 POST 请求
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    
+    # 解析返回结果
+    result = response.json()
+    code = result.get('code')
+    message = result.get('message', 'No message')
+    
+    if code == 0:
+        print("签到成功")
+    else:
+        if "Already claimed" in message:
+            print("今日已签到")
+        else:
+            print(f"签到失败: {message}")
 
-# 发送 GET 请求
-params = {'userId': user_id}
-
-response = requests.get(url, headers=headers, params=params)
-
-# 输出响应
-if response.status_code == 200:
-    print("Response Data:", response.json())
-else:
-    print(f"Failed to fetch data. Status code: {response.status_code}")
+if __name__ == "__main__":
+    sign_in()
