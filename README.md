@@ -1,5 +1,5 @@
 # follow-checkin
-
+## 没什么作用 别试了。。
 ## 参数获取方法[点击登录](https://app.follow.is/)
 1. `USER_ID`获取方法 控制台搜索`session`
 ![alt text](image-1.png)
