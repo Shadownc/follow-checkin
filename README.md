@@ -1,6 +1,7 @@
 # follow-checkin
 ## Actions每天北京时间八点自动运行 在[actions-checkin](https://github.com/Shadownc/actions-checkin)仓库
 ## 参数获取方法[点击登录](https://app.follow.is/)
+**推荐使用无痕模式登录 然后直接关闭浏览器 千万不要退出登录 不然参数值会失效**
 * `csrfToken`
 * `cookie`
 ![alt text](image.png)
