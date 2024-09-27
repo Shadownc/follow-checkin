@@ -6,7 +6,7 @@ const cookie = 'your_cookie_value';
 
 async function signIn() {
     const url = "https://api.follow.is/wallets/transactions/claim_daily";
-    
+
     const headers = {
         'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.38(0x1800262c) NetType/4G Language/zh_CN',
         'Content-Type': 'application/json',
@@ -37,7 +37,20 @@ async function signIn() {
             }
         }
     } catch (error) {
-        console.error("请求失败:", error);
+        if (error.response) {
+            // 服务器返回了一个状态码，表示请求失败
+            const { status: code, data: result } = error.response
+            const message = result.message || 'No message';
+
+            if (code === 400 && message.includes("Already claimed")) {
+                console.log("今日已签到");
+            } else {
+                console.log(`签到失败: ${message}`);
+            }
+        } else {
+            // 其他错误，例如网络问题等
+            console.error("请求失败:", error.message);
+        }
     }
 }
 
